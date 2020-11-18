@@ -1,0 +1,23 @@
+{
+  "name": "spore-exchange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spore-engineering/Spore-Exchange.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spore-engineering/Spore-Exchange/issues"
+  },
+  "homepage": "https://github.com/spore-engineering/Spore-Exchange#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.2.0",
+    "@truffle/hdwallet-provider": "^1.1.1"
+  }
+}
