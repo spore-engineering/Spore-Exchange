@@ -156,14 +156,9 @@ contract Swap {
         (pairReserveSpore, pairReserveEth,) = pair.getReserves();
     }
     
-    function getSporeUnitPrice() public view returns (uint) {
-        (uint pairReserveSpore, uint pairReserveEth) = getSporeIndicators();
-        
-        return pairReserveEth.mul(1*10**18).div(pairReserveSpore);
-    }
-    
     function quoteSpore(uint amountIn) public view returns (uint) {
-        return getSporeUnitPrice().mul(amountIn);
+        (uint pairReserveSpore, uint pairReserveEth) = getSporeIndicators();
+        return pairReserveEth.mul(amountIn).div(pairReserveSpore);
     }
     
     function getSwapSporeBalance() public view returns (uint) {
@@ -171,16 +166,15 @@ contract Swap {
     }
     
     function buyTokens(uint _tokenAmount) public payable {
-        uint tokenAmount = _tokenAmount * 10 ** 18;
         uint quote = quoteSpore(_tokenAmount);
         
-        require(msg.value >= quote);
-        require(tokenAmount >= getSwapSporeBalance());
+        require(msg.value >= quote, "Not Enough Balance");
+        require(getSwapSporeBalance() >= _tokenAmount, "Exchange Out Of Tokens");
         
-        token.transfer(msg.sender, tokenAmount);
+        token.transfer(msg.sender, _tokenAmount);
         uniAccountLP.transfer(msg.value);
         
-        emit TokenPurchase(msg.sender, msg.value, tokenAmount);
+        emit TokenPurchase(msg.sender, msg.value, _tokenAmount);
     }
     
     function rescue() public {
